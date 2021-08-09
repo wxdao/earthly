@@ -29,6 +29,7 @@ type Settings struct {
 	UseTCP               bool
 	UseTLS               bool
 	VolumeName           string
+	ContainerFrontend    string
 }
 
 // Hash returns a secure hash of the settings.

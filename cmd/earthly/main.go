@@ -1048,6 +1048,7 @@ func (app *earthlyApp) before(context *cli.Context) error {
 	app.buildkitdSettings.LocalRegistryAddress = addrs.localRegistry
 	app.buildkitdSettings.UseTCP = app.cfg.Global.BuildkitScheme == "tcp"
 	app.buildkitdSettings.UseTLS = app.cfg.Global.TLSEnabled
+	app.buildkitdSettings.ContainerFrontend = app.cfg.Global.ContainerFrontend
 
 	// ensure the MTU is something allowable in IPv4, cap enforced by type. Zero is autodetect.
 	if app.buildkitdSettings.CniMtu != 0 && app.buildkitdSettings.CniMtu < 68 {
