@@ -19,6 +19,7 @@ stmt:
 	commandStmt
 	| withStmt
 	| ifStmt
+	| tryStmt
 	| forStmt;
 
 commandStmt:
@@ -75,6 +76,16 @@ elseBlock: stmts;
 
 ifExpr: expr;
 elseIfExpr: expr;
+
+// tryStmt ---------------------------------------------------------------------
+
+tryStmt: tryClause (NL+ WS? catchClause)? NL+ WS? END;
+
+tryClause: TRY (NL+ WS? tryBlock)?;
+tryBlock: stmts;
+catchClause: CATCH (NL+ WS? catchBlock)?;
+catchBlock: stmts;
+
 
 // forStmt --------------------------------------------------------------------
 

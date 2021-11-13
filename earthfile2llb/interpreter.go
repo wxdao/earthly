@@ -164,6 +164,7 @@ func (i *Interpreter) handleBlockParallel(ctx context.Context, b spec.Block, sta
 }
 
 func (i *Interpreter) handleStatement(ctx context.Context, stmt spec.Statement) error {
+	fmt.Printf("MADE IT HERE\n")
 	if stmt.Command != nil {
 		return i.handleCommand(ctx, *stmt.Command)
 	} else if stmt.With != nil {
@@ -172,6 +173,8 @@ func (i *Interpreter) handleStatement(ctx context.Context, stmt spec.Statement) 
 		return i.handleIf(ctx, *stmt.If)
 	} else if stmt.For != nil {
 		return i.handleFor(ctx, *stmt.For)
+	} else if stmt.Try != nil {
+		return i.handleTry(ctx, *stmt.Try)
 	} else {
 		return i.errorf(stmt.SourceLocation, "unexpected statement type")
 	}
@@ -261,7 +264,7 @@ func (i *Interpreter) handleCommand(ctx context.Context, cmd spec.Command) (err 
 	case "IMPORT":
 		return i.handleImport(ctx, cmd)
 	default:
-		return i.errorf(cmd.SourceLocation, "unexpected command %s", cmd.Name)
+		return i.errorf(cmd.SourceLocation, "unexpected command %q", cmd.Name)
 	}
 }
 
@@ -414,6 +417,14 @@ func (i *Interpreter) handleForArgs(ctx context.Context, forArgs []string, sl *s
 		return strings.ContainsRune(opts.Separators, r)
 	})
 	return variable, instances, nil
+}
+
+func (i *Interpreter) handleTry(ctx context.Context, tryStmt spec.TryStatement) error {
+	if !i.converter.ftrs.TryCatch {
+		return i.errorf(tryStmt.SourceLocation, "the TRY/CATCH commands are not supported in this version")
+	}
+	panic("TODO: implement handleTry")
+	//return nil
 }
 
 // Commands -------------------------------------------------------------------

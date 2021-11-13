@@ -39,6 +39,7 @@ VERSION: 'VERSION' -> pushMode(COMMAND_ARGS);
 WITH: 'WITH';
 DOCKER: 'DOCKER' -> pushMode(BLOCK), pushMode(COMMAND_ARGS);
 IF: 'IF' -> pushMode(BLOCK), pushMode(COMMAND_ARGS);
+TRY: 'TRY' -> pushMode(BLOCK), pushMode(COMMAND_ARGS);
 FOR: 'FOR' -> pushMode(BLOCK), pushMode(COMMAND_ARGS);
 
 NL: WS? COMMENT? (EOF | CRLF);
@@ -87,6 +88,7 @@ IMPORT_R: IMPORT -> type(IMPORT), pushMode(COMMAND_ARGS);
 WITH_R: WITH -> type(WITH);
 DOCKER_R: DOCKER -> type(DOCKER), pushMode(BLOCK), pushMode(COMMAND_ARGS);
 IF_R: IF -> type(IF), pushMode(BLOCK), pushMode(COMMAND_ARGS);
+TRY_R: TRY -> type(TRY), pushMode(BLOCK), pushMode(COMMAND_ARGS);
 FOR_R: FOR -> type(FOR), pushMode(BLOCK), pushMode(COMMAND_ARGS);
 
 NL_R: NL -> type(NL);
@@ -128,6 +130,8 @@ DOCKER_B: DOCKER -> type(DOCKER), pushMode(BLOCK), pushMode(COMMAND_ARGS);
 IF_B: IF -> type(IF), pushMode(BLOCK), pushMode(COMMAND_ARGS);
 ELSE: 'ELSE' -> pushMode(COMMAND_ARGS);
 ELSE_IF: 'ELSE IF' -> pushMode(COMMAND_ARGS);
+TRY_B: TRY -> type(TRY), pushMode(BLOCK), pushMode(COMMAND_ARGS);
+CATCH: 'CATCH' -> pushMode(COMMAND_ARGS);
 FOR_B: FOR -> type(FOR), pushMode(BLOCK), pushMode(COMMAND_ARGS);
 END: 'END' -> popMode, pushMode(COMMAND_ARGS);
 

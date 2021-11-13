@@ -26,7 +26,7 @@ func NewReturnErrorStrategy() *ReturnErrorStrategy {
 func (res *ReturnErrorStrategy) Recover(recognizer antlr.Parser, e antlr.RecognitionException) {
 	if res.Err == nil {
 		res.RE = e
-		res.Err = errors.Errorf("invalid syntax")
+		res.Err = errors.Errorf("invalid syntax here1")
 		res.ErrContext = recognizer.GetParserRuleContext()
 	}
 	context := recognizer.GetParserRuleContext()

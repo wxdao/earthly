@@ -19,6 +19,7 @@ type block struct {
 	withStatement *spec.WithStatement
 	ifStatement   *spec.IfStatement
 	elseIf        *spec.ElseIf
+	tryStatement  *spec.TryStatement
 	forStatement  *spec.ForStatement
 }
 
@@ -438,6 +439,44 @@ func (l *listener) EnterElseBlock(c *parser.ElseBlockContext) {
 func (l *listener) ExitElseBlock(c *parser.ElseBlockContext) {
 	elseBlock := l.popBlock()
 	l.block().ifStatement.ElseBody = &elseBlock
+}
+
+// Try -------------------------------------------------------------------------
+
+func (l *listener) EnterTryStmt(c *parser.TryStmtContext) {
+	l.block().tryStatement = new(spec.TryStatement)
+	if l.enableSourceMap {
+		l.block().tryStatement.SourceLocation = &spec.SourceLocation{
+			File:        l.filePath,
+			StartLine:   c.GetStart().GetLine(),
+			StartColumn: c.GetStart().GetColumn(),
+			EndLine:     c.GetStop().GetLine(),
+			EndColumn:   c.GetStop().GetColumn(),
+		}
+	}
+}
+
+func (l *listener) ExitTryStmt(c *parser.TryStmtContext) {
+	l.block().statement.Try = l.block().tryStatement
+	l.block().tryStatement = nil
+}
+
+func (l *listener) EnterTryBlock(c *parser.TryBlockContext) {
+	l.pushNewBlock()
+}
+
+func (l *listener) ExitTryBlock(c *parser.TryBlockContext) {
+	tryBlock := l.popBlock()
+	l.block().tryStatement.TryBody = tryBlock
+}
+
+func (l *listener) EnterCatchBlock(c *parser.CatchBlockContext) {
+	l.pushNewBlock()
+}
+
+func (l *listener) ExitCatchBlock(c *parser.CatchBlockContext) {
+	catchBlock := l.popBlock()
+	l.block().tryStatement.CatchBody = &catchBlock
 }
 
 // For ------------------------------------------------------------------------
