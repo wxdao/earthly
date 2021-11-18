@@ -28,17 +28,17 @@ ga:
     #     --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
     #     --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
     #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
-    BUILD ./with-docker+all
-    BUILD ./with-docker-compose+all
-    BUILD ./dockerfile+test
-    BUILD ./dockerfile2/subdir+test
+    # BUILD ./with-docker+all
+    # BUILD ./with-docker-compose+all
+    # BUILD ./dockerfile+test
+    # BUILD ./dockerfile2/subdir+test
     # BUILD ./version+test-all \
     #     --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
     #     --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
     #     --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
     #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
-    BUILD ./import+build
-    BUILD ./import+build-imported
+    # BUILD ./import+build
+    # BUILD ./import+build-imported
     # BUILD +privileged-test
     # BUILD +copy-test
     # BUILD +copy-test-verbose-output
