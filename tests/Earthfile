@@ -42,14 +42,14 @@ ga:
     BUILD +privileged-test
     BUILD +copy-test
     BUILD +copy-test-verbose-output
-    # BUILD +cache-test
-    # BUILD +git-clone-test
-    # BUILD +git-clone-private-ssh
-    # BUILD ./private-https+all \
-    #     --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
-    #     --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
-    #     --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
-    #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
+    BUILD +cache-test
+    BUILD +git-clone-test
+    BUILD +git-clone-private-ssh
+    BUILD ./private-https+all \
+        --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
+        --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
+        --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
+        --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
     BUILD +builtin-args-test
     BUILD +config-test
     BUILD +excludes-test
