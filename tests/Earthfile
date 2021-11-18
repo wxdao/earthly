@@ -39,9 +39,9 @@ ga:
     #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
     # BUILD ./import+build
     # BUILD ./import+build-imported
-    # BUILD +privileged-test
-    # BUILD +copy-test
-    # BUILD +copy-test-verbose-output
+    BUILD +privileged-test
+    BUILD +copy-test
+    BUILD +copy-test-verbose-output
     # BUILD +cache-test
     # BUILD +git-clone-test
     # BUILD +git-clone-private-ssh
@@ -51,16 +51,16 @@ ga:
     #     --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
     #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
     BUILD +builtin-args-test
-    # BUILD +config-test
-    # BUILD +excludes-test
-    # BUILD +secrets-test
+    BUILD +config-test
+    BUILD +excludes-test
+    BUILD +secrets-test
     BUILD +build-arg-test
-    # BUILD +lc-test
-    # BUILD +from-expose-test
-    # BUILD +scratch-test
-    # BUILD +build-earthly-test
-    # BUILD +host-bind-test
-    # BUILD +remote-test
+    BUILD +lc-test
+    BUILD +from-expose-test
+    BUILD +scratch-test
+    BUILD +build-earthly-test
+    BUILD +host-bind-test
+    BUILD +remote-test
     BUILD +transitive-args-test
     BUILD +transitive-args-test2
     BUILD +non-transitive-args-test
