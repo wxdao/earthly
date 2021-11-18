@@ -50,21 +50,21 @@ ga:
     #     --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
     #     --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
     #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
-    # BUILD +builtin-args-test
+    BUILD +builtin-args-test
     # BUILD +config-test
     # BUILD +excludes-test
     # BUILD +secrets-test
-    # BUILD +build-arg-test
+    BUILD +build-arg-test
     # BUILD +lc-test
     # BUILD +from-expose-test
     # BUILD +scratch-test
     # BUILD +build-earthly-test
     # BUILD +host-bind-test
     # BUILD +remote-test
-    # BUILD +transitive-args-test
+    BUILD +transitive-args-test
     # BUILD +transitive-args-test2
     # BUILD +non-transitive-args-test
-    # BUILD +star-test
+    BUILD +star-test
     # BUILD +dockerfile-test
     # BUILD +fail-test
     # BUILD +fail-push-test
@@ -76,7 +76,7 @@ ga:
     # BUILD +gen-dockerfile-test
     # BUILD +chown-test
     # BUILD +dotenv-test
-    # BUILD +env-test
+    BUILD +env-test
     # BUILD +no-cache-local-artifact-test
     # BUILD +empty-git-test
     # BUILD +escape-test
