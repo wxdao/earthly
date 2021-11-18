@@ -62,20 +62,20 @@ ga:
     # BUILD +host-bind-test
     # BUILD +remote-test
     BUILD +transitive-args-test
-    # BUILD +transitive-args-test2
-    # BUILD +non-transitive-args-test
+    BUILD +transitive-args-test2
+    BUILD +non-transitive-args-test
     BUILD +star-test
-    # BUILD +dockerfile-test
-    # BUILD +fail-test
-    # BUILD +fail-push-test
-    # BUILD +allow-privileged-test
-    # BUILD +allow-privileged-import-test
-    # BUILD +reject-privileged-import-test
-    # BUILD +required-arg-test
-    # BUILD +push-test
-    # BUILD +gen-dockerfile-test
-    # BUILD +chown-test
-    # BUILD +dotenv-test
+    BUILD +dockerfile-test
+    BUILD +fail-test
+    BUILD +fail-push-test
+    BUILD +allow-privileged-test
+    BUILD +allow-privileged-import-test
+    BUILD +reject-privileged-import-test
+    BUILD +required-arg-test
+    BUILD +push-test
+    BUILD +gen-dockerfile-test
+    BUILD +chown-test
+    BUILD +dotenv-test
     BUILD +env-test
     BUILD +no-cache-local-artifact-test
     BUILD +empty-git-test
