@@ -77,31 +77,31 @@ ga:
     # BUILD +chown-test
     # BUILD +dotenv-test
     BUILD +env-test
-    # BUILD +no-cache-local-artifact-test
-    # BUILD +empty-git-test
-    # BUILD +escape-test
-    # BUILD +escape-dir-test
-    # BUILD +fail-invalid-artifact-test
-    # BUILD +target-first-line
-    # BUILD +absolute-reference-with-relative
-    # BUILD +end-comment
-    # BUILD +if-exists
-    # BUILD +file-copying
-    # BUILD +run-no-cache
-    # BUILD +save-artifact-file-as-dot
-    # BUILD +save-artifact-dir-as-dot
-    # BUILD +save-artifact-dont-overwrite
-    # BUILD +save-artifact-force-overwrite
-    # BUILD +save-artifact-after-push
-    # BUILD +save-artifact-selective
-    # BUILD +save-artifact-selective-legacy
-    # BUILD +save-artifact-selective-referencing-remote
-    # BUILD +save-remote-artifact-selective-legacy
-    # BUILD +save-remote-artifact-selective
-    # BUILD +push-build
-    # BUILD +build-arg-repeat
-    # BUILD +if
-    # BUILD +for
+    BUILD +no-cache-local-artifact-test
+    BUILD +empty-git-test
+    BUILD +escape-test
+    BUILD +escape-dir-test
+    BUILD +fail-invalid-artifact-test
+    BUILD +target-first-line
+    BUILD +absolute-reference-with-relative
+    BUILD +end-comment
+    BUILD +if-exists
+    BUILD +file-copying
+    BUILD +run-no-cache
+    BUILD +save-artifact-file-as-dot
+    BUILD +save-artifact-dir-as-dot
+    BUILD +save-artifact-dont-overwrite
+    BUILD +save-artifact-force-overwrite
+    BUILD +save-artifact-after-push
+    BUILD +save-artifact-selective
+    BUILD +save-artifact-selective-legacy
+    BUILD +save-artifact-selective-referencing-remote
+    BUILD +save-remote-artifact-selective-legacy
+    BUILD +save-remote-artifact-selective
+    BUILD +push-build
+    BUILD +build-arg-repeat
+    BUILD +if
+    BUILD +for
     BUILD +first-command
     BUILD +platform-output
     BUILD +command
