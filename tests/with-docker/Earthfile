@@ -1,21 +1,20 @@
 FROM earthly/dind:alpine
 
 all:
-    # BUILD +docker-load-test
+    BUILD +docker-load-test
     # BUILD +undeclared-pull-test
     # BUILD +docker-pull-test
     # BUILD +load-parallel-test
     # BUILD +one-target-many-names
     # BUILD +if-after
-    BUILD +a-test-image
 
 a-test-image:
     FROM alpine:3.13
     RUN mkdir /abc
     WORKDIR /abc
-    RUN echo "hello world" >def.txt
-    ENTRYPOINT cat /abc/def.txt && pwd
-    SAVE IMAGE test-img:xyz
+    # RUN echo "hello world" >def.txt
+    # ENTRYPOINT cat /abc/def.txt && pwd
+    # SAVE IMAGE test-img:xyz
 
 docker-load-test:
     # Index is used to create parallel tests.
