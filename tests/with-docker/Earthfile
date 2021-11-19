@@ -20,6 +20,7 @@ docker-load-test:
     # Index is used to create parallel tests.
     # ARG INDEX=0
     # RUN echo "$INDEX"
+    FROM earthly/dind:alpine
     WITH DOCKER \
             # --pull hello-world \
             --load test-img:xyz=+a-test-image
