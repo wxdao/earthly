@@ -18,18 +18,18 @@ all:
     BUILD +experimental
 
 ga:
-    BUILD ./autocompletion+test-all \
-        --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
-        --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
-        --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
-        --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
-    BUILD ./scrub-https-credentials+all \
-        --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
-        --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
-        --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
-        --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
+    # BUILD ./autocompletion+test-all \
+    #     --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
+    #     --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
+    #     --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
+    #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
+    # BUILD ./scrub-https-credentials+all \
+    #     --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
+    #     --DOCKERHUB_USER_SECRET=$DOCKERHUB_USER_SECRET \
+    #     --DOCKERHUB_TOKEN_SECRET=$DOCKERHUB_TOKEN_SECRET \
+    #     --DOCKERHUB_MIRROR=$DOCKERHUB_MIRROR
     # BUILD ./with-docker+all
-    # BUILD ./with-docker-compose+all
+    BUILD ./with-docker-compose+all
     # BUILD ./dockerfile+test
     # BUILD ./dockerfile2/subdir+test
     # BUILD ./version+test-all \
