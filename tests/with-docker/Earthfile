@@ -5,7 +5,7 @@ all:
     # Temporarily disabled.
     # BUILD +undeclared-pull-test
     BUILD +docker-pull-test
-    BUILD +load-parallel-test
+    # BUILD +load-parallel-test
     # BUILD +one-target-many-names
     # BUILD +if-after
 
