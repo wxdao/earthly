@@ -27,12 +27,10 @@ docker-load-test:
             docker run hello-world
     END
 
-# This test is testing whether a pull within a WITH DOCKER would work.
-# Currently it fails occasionally due to DockerHub rate limiting.
-# undeclared-pull-test:
-#     WITH DOCKER
-#         RUN docker run hello-world
-#     END
+undeclared-pull-test:
+    WITH DOCKER
+        RUN docker run hello-world
+    END
 
 docker-pull-test:
     # Note that this is mainly a smoke test, because the RUN command
