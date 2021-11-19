@@ -1,7 +1,7 @@
 FROM earthly/dind:alpine
 
 all:
-    BUILD +docker-load-test
+    # BUILD +docker-load-test
     # Temporarily disabled.
     # BUILD +undeclared-pull-test
     BUILD +docker-pull-test
