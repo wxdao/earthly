@@ -6,7 +6,7 @@ all:
     BUILD +docker-pull-test
     # BUILD +load-parallel-test
     BUILD +one-target-many-names
-    # BUILD +if-after
+    BUILD +if-after
 
 a-test-image:
     FROM alpine:3.13
