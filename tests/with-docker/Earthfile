@@ -17,12 +17,13 @@ a-test-image:
     SAVE IMAGE test-img:xyz
 
 docker-load-test:
+    FROM earthly/dind:alpine
     # Index is used to create parallel tests.
     ARG INDEX=0
     RUN echo "$INDEX"
     WITH DOCKER \
             --pull hello-world \
-            --load a:latest=+a-test-image
+            --load +a-test-image
         RUN docker run test-img:xyz && \
             docker run hello-world
     END
