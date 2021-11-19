@@ -1,12 +1,13 @@
 FROM earthly/dind:alpine
 
 all:
-    BUILD +docker-load-test
+    # BUILD +docker-load-test
     # BUILD +undeclared-pull-test
     # BUILD +docker-pull-test
     # BUILD +load-parallel-test
     # BUILD +one-target-many-names
     # BUILD +if-after
+    BUILD +a-test-image
 
 a-test-image:
     FROM alpine:3.13
@@ -18,8 +19,8 @@ a-test-image:
 
 docker-load-test:
     # Index is used to create parallel tests.
-    # ARG INDEX=0
-    # RUN echo "$INDEX"
+    ARG INDEX=0
+    RUN echo "$INDEX"
     WITH DOCKER \
             --pull hello-world \
             --load +a-test-image
