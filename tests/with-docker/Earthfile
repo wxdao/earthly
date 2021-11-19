@@ -10,11 +10,11 @@ all:
 
 a-test-image:
     FROM alpine:3.13
-    RUN mkdir /abc
-    WORKDIR /abc
+    # RUN mkdir /abc
+    # WORKDIR /abc
     # RUN echo "hello world" >def.txt
     # ENTRYPOINT cat /abc/def.txt && pwd
-    # SAVE IMAGE test-img:xyz
+    SAVE IMAGE test-img:xyz
 
 docker-load-test:
     # Index is used to create parallel tests.
