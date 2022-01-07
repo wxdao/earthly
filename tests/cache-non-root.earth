@@ -1,0 +1,10 @@
+VERSION 0.6
+FROM alpine:3.13
+
+RUN addgroup --system weeheavy
+RUN adduser --system weeheavy -G weeheavy -h /home/weeheavy
+
+as-user:
+    USER weeheavy
+    WORKDIR /home/weeheavy
+    RUN --mount=type=cache,target=/home/weeheavy/.cache ls -la && ls -la .cache && touch .cache/afile

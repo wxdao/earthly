@@ -45,6 +45,7 @@ ga:
     BUILD +copy-test
     BUILD +copy-test-verbose-output
     BUILD +cache-test
+    BUILD +cache-non-root
     BUILD +git-clone-test
     BUILD ./git-ssh-server+all \
         --DOCKERHUB_AUTH=$DOCKERHUB_AUTH \
@@ -210,6 +211,9 @@ cache-test:
         --post_command=">output.txt 2>&1" # check that all is still cached if re-running the prev version
     RUN cat output.txt
     RUN cat output.txt | grep '\*cached\* --> RUN echo hey'
+
+cache-non-root:
+    DO +RUN_EARTHLY --earthfile=cache-non-root.earth --target=+as-user
 
 git-clone-test:
     DO +RUN_EARTHLY --earthfile=git-clone.earth --target=+test
