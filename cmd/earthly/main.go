@@ -2355,7 +2355,7 @@ func (app *earthlyApp) actionAccountLogin(c *cli.Context) error {
 	}
 
 	if token != "" && (email != "" || pass != "") {
-		return errors.New("--token can not be used in conjuction with --email or --password")
+		return errors.New("--token cannot be used in conjuction with --email or --password")
 	}
 	sc, err := secretsclient.NewClient(app.apiServer, app.sshAuthSock, app.authToken, app.console.Warnf)
 	if err != nil {
@@ -2838,10 +2838,20 @@ func (app *earthlyApp) actionBuildImp(c *cli.Context, flagArgs, nonFlagArgs []st
 	}
 
 	if app.sshAuthSock != "" {
+
+		fmt.Printf("ACB calling os.Stat directly with %q\n", app.sshAuthSock)
+		fi, err := os.Stat(app.sshAuthSock)
+		if err != nil {
+			fmt.Printf("ACB os.Stat failed with %q\n", err)
+		}
+		fmt.Printf("ACB os.Stat returned %v\n", fi)
+
+		fmt.Printf("ACB calling NewSSHAgentProvider with %q\n", app.sshAuthSock)
 		ssh, err := sshprovider.NewSSHAgentProvider([]sshprovider.AgentConfig{{
 			Paths: []string{app.sshAuthSock},
 		}})
 		if err != nil {
+			fmt.Printf("ACB NewSSHAgentProvider failed with %v\n", err)
 			return errors.Wrap(err, "ssh agent provider")
 		}
 		attachables = append(attachables, ssh)
@@ -3036,7 +3046,7 @@ func (app *earthlyApp) actionListTargets(c *cli.Context) error {
 			return errors.New("remote-paths are not currently supported; local paths must start with \"/\" or \".\"")
 		}
 		if strings.Contains(targetToParse, "+") {
-			return errors.New("path can not contain a +")
+			return errors.New("path cannot contain a +")
 		}
 		targetToParse = strings.TrimSuffix(targetToParse, "/Earthfile")
 	}
