@@ -2,6 +2,14 @@
 
 set -e
 
+#echo "running in acb hack"
+#
+#if [ $(mount | grep ' /sys/fs/cgroup ' | grep cgroup2 | wc -l) -eq 1 ]; then
+#  echo "running cgroup v2 hack"
+#  mkdir /sys/fs/cgroup/entrypoint
+#  echo 1 > /sys/fs/cgroup/entrypoint/cgroup.procs
+#fi
+
 earthly_config="/etc/.earthly/config.yml"
 if [ ! -f "$earthly_config" ]; then
   # Missing config, generate it and use the env vars
