@@ -3,11 +3,18 @@ set -e
 echo "starting earthly-buildkit with EARTHLY_GIT_HASH=$EARTHLY_GIT_HASH BUILDKIT_BASE_IMAGE=$BUILDKIT_BASE_IMAGE"
 
 echo "running in acb hack"
-if [ $(mount | grep ' /sys/fs/cgroup ' | grep cgroup2 | wc -l) -eq 1 ]; then
-  echo "running cgroup v2 hack"
-  mkdir /sys/fs/cgroup/entrypoint
-  echo 1 > /sys/fs/cgroup/entrypoint/cgroup.procs
+
+if [ -n "$EXTRA_HACKS" ]; then
+  hacks="$(echo $EXTRA_HACKS | base64 -d)"
+  echo "running $hacks"
+  eval "$hacks"
 fi
+
+#if [ $(mount | grep ' /sys/fs/cgroup ' | grep cgroup2 | wc -l) -eq 1 ]; then
+#  echo "running cgroup v2 hack"
+#  mkdir /sys/fs/cgroup/entrypoint
+#  echo 1 > /sys/fs/cgroup/entrypoint/cgroup.procs
+#fi
 
 if [ "$BUILDKIT_DEBUG" = "true" ]; then
     set -x
