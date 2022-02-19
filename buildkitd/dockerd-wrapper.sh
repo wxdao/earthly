@@ -74,6 +74,7 @@ start_dockerd() {
     if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
         grp="docker-$(date +%s)"
         echo "cgroup v2 detected; creating group for docker: $grp"
+        mkdir "/sys/fs/cgroup/$grp"
         grpconfig=", \"experimental\": true, \"cgroup-parent\": \"$grp\""
     else
         echo "no cgroupv2 hack"
