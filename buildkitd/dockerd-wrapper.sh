@@ -70,8 +70,14 @@ execute() {
 start_dockerd() {
     # Use a specific IP range to avoid collision with host dockerd (we need to also connect to host
     # docker containers for the debugger).
+    grpconfig=""
+    if [[ -f "/sys/fs/cgroup/cgroup.controllers" ]]; then
+        grp="docker-$(date %+s)"
+        echo "cgroup v2 detected; creating group for docker: $grp"
+        grpconfig=", \"experimental\": true, \"cgroup-parent\": \"$grp\""
+    fi
     mkdir -p /etc/docker
-    cat <<'EOF' >/etc/docker/daemon.json
+    cat <<EOF >/etc/docker/daemon.json
 {
     "default-address-pools" : [
         {
@@ -82,7 +88,7 @@ start_dockerd() {
             "base" : "172.22.0.0/16",
             "size" : 24
         }
-    ]
+    ]$grpconfig
 }
 EOF
 
