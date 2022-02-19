@@ -72,7 +72,7 @@ start_dockerd() {
     # docker containers for the debugger).
     grpconfig=""
     if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
-        grp="docker-$(date +%s)"
+        grp="docker-$(date +%s).slice"
         echo "cgroup v2 detected; creating group for docker: $grp"
         mkdir "/sys/fs/cgroup/$grp"
         grpconfig=", \"experimental\": true, \"cgroup-parent\": \"$grp\""
