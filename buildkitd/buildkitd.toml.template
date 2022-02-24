@@ -10,6 +10,7 @@ ${TLS_ENABLED}
   snapshotter = "auto"
   max-parallelism = ${BUILDKIT_MAX_PARALLELISM}
   gc = true
+  noProcessSandbox = true
   networkMode = "${NETWORK_MODE}"
   cniBinaryPath = "/usr/libexec/cni"
   cniConfigPath = "/etc/cni/cni-conf.json"
