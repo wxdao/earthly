@@ -84,6 +84,14 @@
         {
           "command": {
             "args": [
+              "+test6"
+            ],
+            "name": "BUILD"
+          }
+        },
+        {
+          "command": {
+            "args": [
               "+test-global1"
             ],
             "name": "BUILD"
@@ -410,6 +418,43 @@
               "\"$VAR1\"",
               "==",
               "'\"text with quotes\"'"
+            ],
+            "name": "RUN"
+          }
+        }
+      ]
+    },
+    {
+      "name": "test6",
+      "recipe": [
+        {
+          "command": {
+            "args": [
+              "echo",
+              "world",
+              ">",
+              "data"
+            ],
+            "name": "RUN"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "VAR1",
+              "=",
+              "\"hello$(cat ./data)\""
+            ],
+            "name": "ARG"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "test",
+              "\"$VAR1\"",
+              "==",
+              "\"helloworld\""
             ],
             "name": "RUN"
           }

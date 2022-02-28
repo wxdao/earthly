@@ -92,7 +92,7 @@ func parseArgValue(name string, value string, pncvf ProcessNonConstantVariableFu
 	if pncvf == nil {
 		return value, nil
 	}
-	if strings.HasPrefix(value, "$(") {
+	if strings.Contains(value, "$(") {
 		// Variable build arg - resolve value.
 		var err error
 		value, _, err = pncvf(name, value)

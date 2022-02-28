@@ -23,6 +23,7 @@ All notable changes to [Earthly](https://github.com/earthly/earthly) will be doc
   build args. [#1696](https://github.com/earthly/earthly/issues/1696)
 - `ENTRYPOINT` and `CMD` were not properly expanding args when used in shell mode.
 - A race condition sometimes caused a `Canceled` error to be reported, instead of the real error that caused the build to fail
+- ARG values containing (not not starting with) shell execution (e.g. `foo$(cat data)`) were not expanded.
 
 ## v0.6.8 - 2022-02-16
 

@@ -11,6 +11,7 @@ all:
     BUILD +test3
     BUILD +test4
     BUILD +test5
+    BUILD +test6
     BUILD +test-global1
     BUILD +test-global2
     BUILD +test-global3
@@ -57,6 +58,11 @@ test5:
     RUN printf '"text with quotes"' >./content
     ARG VAR1=$(cat ./content)
     RUN test "$VAR1" == '"text with quotes"'
+
+test6:
+    RUN echo world > data
+    ARG VAR1="hello$(cat ./data)"
+    RUN test "$VAR1" == "helloworld"
 
 test-global1:
     RUN test "$global1" == "abc"
