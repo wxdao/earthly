@@ -201,7 +201,7 @@ echo starting shellrepeater
 shellrepeater &
 shellrepeaterpid=$!
 
-echo $$ > /sys/fs/cgroup/system.slice/earthly/buildkit/cgroup.procs
+#echo $$ > /sys/fs/cgroup/system.slice/earthly/buildkit/cgroup.procs
 "$@" &
 execpid=$!
 

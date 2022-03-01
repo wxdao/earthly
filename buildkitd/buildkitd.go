@@ -147,19 +147,25 @@ func MaybeStart(ctx context.Context, console conslogging.ConsoleLogger, image, c
 	return settings.BuildkitAddress, nil
 }
 
-func cgroupSetup(ctx context.Context) {
+func cgroupSetup(ctx context.Context, console conslogging.ConsoleLogger) {
 
-	cmd := exec.CommandContext(ctx, "/usr/bin/docker", "run", "--privileged", "-v", "/sys/fs/cgroup:/cgroup", "alpine", "/bin/sh", "-c", `
+	console.
+		WithPrefix("buildkitd").
+		Printf("cgroup hack setup\n")
+
+	cmd := exec.CommandContext(ctx, "/usr/bin/docker", "rm", "earthly-setup")
+	_ = cmd.Run()
+
+	console.
+		WithPrefix("buildkitd").
+		Printf("cgroup hack setup 2\n")
+
+	cmd = exec.CommandContext(ctx, "/usr/bin/docker", "run", "--privileged", "-v", "/sys/fs/cgroup:/cgroup", "--name", "earthly-setup", "alpine", "/bin/sh", "-c", `
 set -e
-if [ -d /cgroup/system.slice/earthly/earthly ]; then
-    rmdir /cgroup/system.slice/earthly/earthly
-fi
-if [ -d /cgroup/system.slice/earthly/buildkit ]; then
-    rmdir /cgroup/system.slice/earthly/buildkit
-fi
-if [ -d /cgroup/system.slice/earthly ]; then
-    rmdir /cgroup/system.slice/earthly
-fi
+
+# remove all old cgroups
+find /cgroup/system.slice/earthly -type d | awk '{ print -length, $0 }' | sort -n -s | cut -d" " -f2- | xargs -n 1 -r rmdir
+
 mkdir /cgroup/system.slice/earthly
 mkdir /cgroup/system.slice/earthly/earthly
 mkdir /cgroup/system.slice/earthly/buildkit
@@ -173,6 +179,17 @@ echo "+cpu" > /cgroup/system.slice/earthly/cgroup.subtree_control
 	if err != nil {
 		panic(err)
 	}
+
+	console.
+		WithPrefix("buildkitd").
+		Printf("cgroup hack setup 3\n")
+
+	cmd = exec.CommandContext(ctx, "/usr/bin/docker", "rm", "earthly-setup")
+	_ = cmd.Run()
+
+	console.
+		WithPrefix("buildkitd").
+		Printf("cgroup hack setup 4\n")
 }
 
 // MaybeRestart checks whether the there is a different buildkitd image available locally or if
@@ -210,7 +227,7 @@ func MaybeRestart(ctx context.Context, console conslogging.ConsoleLogger, image,
 			//	VerbosePrintf("Settings hashes match (%q), no restart required\n", hash)
 			console.
 				WithPrefix("buildkitd").
-				VerbosePrintf("forcing restart due to hacks\n", hash)
+				Printf("forcing restart due to hacks\n")
 		}
 
 		console.
@@ -231,7 +248,7 @@ func MaybeRestart(ctx context.Context, console conslogging.ConsoleLogger, image,
 	if err != nil {
 		return err
 	}
-	cgroupSetup(ctx)
+	cgroupSetup(ctx, console)
 	err = Start(ctx, console, image, containerName, fe, settings, false)
 	if err != nil {
 		return err
