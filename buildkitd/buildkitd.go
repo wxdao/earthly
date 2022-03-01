@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strconv"
@@ -146,6 +147,34 @@ func MaybeStart(ctx context.Context, console conslogging.ConsoleLogger, image, c
 	return settings.BuildkitAddress, nil
 }
 
+func cgroupSetup(ctx context.Context) {
+
+	cmd := exec.CommandContext(ctx, "/usr/bin/docker", "run", "--privileged", "-v", "/sys/fs/cgroup:/cgroup", "alpine", "/bin/sh", "-c", `
+set -e
+if [ -d /cgroup/system.slice/earthly/earthly ]; then
+    rmdir /cgroup/system.slice/earthly/earthly
+fi
+if [ -d /cgroup/system.slice/earthly/buildkit ]; then
+    rmdir /cgroup/system.slice/earthly/buildkit
+fi
+if [ -d /cgroup/system.slice/earthly ]; then
+    rmdir /cgroup/system.slice/earthly
+fi
+mkdir /cgroup/system.slice/earthly
+mkdir /cgroup/system.slice/earthly/earthly
+mkdir /cgroup/system.slice/earthly/buildkit
+
+echo "+pids" > /cgroup/system.slice/earthly/cgroup.subtree_control
+echo "+cpu" > /cgroup/system.slice/earthly/cgroup.subtree_control
+`)
+	cmd.Env = os.Environ() // Ensure all shellouts are using the current environment, picks up DOCKER_/PODMAN_ env vars when they matter
+
+	err := cmd.Run()
+	if err != nil {
+		panic(err)
+	}
+}
+
 // MaybeRestart checks whether the there is a different buildkitd image available locally or if
 // settings of the current container are different from the provided settings. In either case,
 // the container is restarted.
@@ -176,10 +205,12 @@ func MaybeRestart(ctx context.Context, console conslogging.ConsoleLogger, image,
 		}
 		if ok {
 			// No need to replace: images are the same and settings are the same.
+			//console.
+			//	WithPrefix("buildkitd").
+			//	VerbosePrintf("Settings hashes match (%q), no restart required\n", hash)
 			console.
 				WithPrefix("buildkitd").
-				VerbosePrintf("Settings hashes match (%q), no restart required\n", hash)
-			return nil
+				VerbosePrintf("forcing restart due to hacks\n", hash)
 		}
 
 		console.
@@ -200,6 +231,7 @@ func MaybeRestart(ctx context.Context, console conslogging.ConsoleLogger, image,
 	if err != nil {
 		return err
 	}
+	cgroupSetup(ctx)
 	err = Start(ctx, console, image, containerName, fe, settings, false)
 	if err != nil {
 		return err

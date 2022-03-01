@@ -5,25 +5,27 @@ echo "starting earthly-buildkit with EARTHLY_GIT_HASH=$EARTHLY_GIT_HASH BUILDKIT
 if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
     echo "detected cgroups v2"
 
-    if [ "$(cat /sys/fs/cgroup/cgroup.type)" != "domain" ]; then
-        echo "execpted root cgroup.type of domain, but got $(cat /sys/fs/cgroup/cgroup.type); unable to continue"
-        exit 1
-    fi
+    echo $$ > /sys/fs/cgroup/system.slice/earthly/earthly/cgroup.procs
 
-    # doing this causes the buildkit cgroup below to become "domain invalid";
-    # however podman requires the pid controller (which even on it's own causes this be become invalid)
-    #for x in $(cat /sys/fs/cgroup/cgroup.controllers); do
-    #   echo "+$x" > /sys/fs/cgroup/cgroup.subtree_control || echo "write failed; ignoring";
-    #done
+    #if [ "$(cat /sys/fs/cgroup/cgroup.type)" != "domain" ]; then
+    #    echo "execpted root cgroup.type of domain, but got $(cat /sys/fs/cgroup/cgroup.type); unable to continue"
+    #    exit 1
+    #fi
 
-    mkdir "/sys/fs/cgroup/buildkit"
-    if [ "$(cat /sys/fs/cgroup/buildkit/cgroup.type)" != "domain" ]; then
-        echo "execpted buildkit cgroup.type of domain, but got $(cat /sys/fs/cgroup/buildkit/cgroup.type); unable to continue"
-        exit 1
-    fi
-    #for x in $(cat /sys/fs/cgroup/buildkit/cgroup.controllers); do
-    #   echo "+$x" > /sys/fs/cgroup/buildkit/cgroup.subtree_control || echo "write failed; ignoring";
-    #done
+    ## doing this causes the buildkit cgroup below to become "domain invalid";
+    ## however podman requires the pid controller (which even on it's own causes this be become invalid)
+    ##for x in $(cat /sys/fs/cgroup/cgroup.controllers); do
+    ##   echo "+$x" > /sys/fs/cgroup/cgroup.subtree_control || echo "write failed; ignoring";
+    ##done
+
+    #mkdir "/sys/fs/cgroup/buildkit"
+    #if [ "$(cat /sys/fs/cgroup/buildkit/cgroup.type)" != "domain" ]; then
+    #    echo "execpted buildkit cgroup.type of domain, but got $(cat /sys/fs/cgroup/buildkit/cgroup.type); unable to continue"
+    #    exit 1
+    #fi
+    ##for x in $(cat /sys/fs/cgroup/buildkit/cgroup.controllers); do
+    ##   echo "+$x" > /sys/fs/cgroup/buildkit/cgroup.subtree_control || echo "write failed; ignoring";
+    ##done
 fi
 
 if [ "$BUILDKIT_DEBUG" = "true" ]; then
@@ -199,7 +201,7 @@ echo starting shellrepeater
 shellrepeater &
 shellrepeaterpid=$!
 
-echo "$$" > /sys/fs/cgroup/buildkit/cgroup.procs
+echo $$ > /sys/fs/cgroup/system.slice/earthly/buildkit/cgroup.procs
 "$@" &
 execpid=$!
 
