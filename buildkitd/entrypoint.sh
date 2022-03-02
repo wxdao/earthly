@@ -2,32 +2,6 @@
 set -e
 echo "starting earthly-buildkit with EARTHLY_GIT_HASH=$EARTHLY_GIT_HASH BUILDKIT_BASE_IMAGE=$BUILDKIT_BASE_IMAGE"
 
-if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
-    echo "detected cgroups v2"
-
-    echo $$ > /sys/fs/cgroup/system.slice/earthly/earthly/cgroup.procs
-
-    #if [ "$(cat /sys/fs/cgroup/cgroup.type)" != "domain" ]; then
-    #    echo "execpted root cgroup.type of domain, but got $(cat /sys/fs/cgroup/cgroup.type); unable to continue"
-    #    exit 1
-    #fi
-
-    ## doing this causes the buildkit cgroup below to become "domain invalid";
-    ## however podman requires the pid controller (which even on it's own causes this be become invalid)
-    ##for x in $(cat /sys/fs/cgroup/cgroup.controllers); do
-    ##   echo "+$x" > /sys/fs/cgroup/cgroup.subtree_control || echo "write failed; ignoring";
-    ##done
-
-    #mkdir "/sys/fs/cgroup/buildkit"
-    #if [ "$(cat /sys/fs/cgroup/buildkit/cgroup.type)" != "domain" ]; then
-    #    echo "execpted buildkit cgroup.type of domain, but got $(cat /sys/fs/cgroup/buildkit/cgroup.type); unable to continue"
-    #    exit 1
-    #fi
-    ##for x in $(cat /sys/fs/cgroup/buildkit/cgroup.controllers); do
-    ##   echo "+$x" > /sys/fs/cgroup/buildkit/cgroup.subtree_control || echo "write failed; ignoring";
-    ##done
-fi
-
 if [ "$BUILDKIT_DEBUG" = "true" ]; then
     set -x
 fi
@@ -60,6 +34,24 @@ fi
 if [ -z "$EARTHLY_CACHE_VERSION" ]; then
     echo "EARTHLY_CACHE_VERSION not set"
     exit 1
+fi
+
+if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
+    echo "detected cgroups v2"
+
+    mkdir /sys/fs/cgroup/earthly
+    mkdir /sys/fs/cgroup/buildkit
+    echo $$ > /sys/fs/cgroup/earthly/cgroup.procs
+
+    echo "+pids" > /sys/fs/cgroup/cgroup.subtree_control
+    echo "+cpu" > /sys/fs/cgroup/cgroup.subtree_control
+
+    echo "+pids" > /sys/fs/cgroup/buildkit/cgroup.subtree_control
+    echo "+cpu" > /sys/fs/cgroup/buildkit/cgroup.subtree_control
+
+    test "$(cat /sys/fs/cgroup/cgroup.type)" = "domain"
+    test "$(cat /sys/fs/cgroup/earthly/cgroup.type)" = "domain"
+    test "$(cat /sys/fs/cgroup/buildkit/cgroup.type)" = "domain"
 fi
 
 earthly_cache_version_path="${EARTHLY_TMP_DIR}/internal.earthly.version"

@@ -13,7 +13,6 @@ ${TLS_ENABLED}
   networkMode = "${NETWORK_MODE}"
   cniBinaryPath = "/usr/libexec/cni"
   cniConfigPath = "/etc/cni/cni-conf.json"
-  defaultCgroupParent = "system.slice/earthly/buildkit"
   ${CACHE_SETTINGS}
 
 ${EARTHLY_ADDITIONAL_BUILDKIT_CONFIG}

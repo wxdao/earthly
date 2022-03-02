@@ -248,7 +248,7 @@ func MaybeRestart(ctx context.Context, console conslogging.ConsoleLogger, image,
 	if err != nil {
 		return err
 	}
-	cgroupSetup(ctx, console)
+	//cgroupSetup(ctx, console)
 	err = Start(ctx, console, image, containerName, fe, settings, false)
 	if err != nil {
 		return err

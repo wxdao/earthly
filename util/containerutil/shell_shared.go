@@ -147,7 +147,7 @@ func (sf *shellFrontend) ContainerRun(ctx context.Context, containers ...Contain
 			args = append(args, "--privileged")
 		}
 
-		args = append(args, "--cgroupns", "host")
+		//args = append(args, "--cgroupns", "host")
 
 		for k, v := range container.Envs {
 			env := fmt.Sprintf("%s=%s", k, v)
