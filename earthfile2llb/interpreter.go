@@ -1453,7 +1453,11 @@ func (i *Interpreter) pushOnlyErr(sl *spec.SourceLocation) error {
 }
 
 func (i *Interpreter) expandArgs(word string, keepPlusEscape bool) string {
-	ret := i.converter.ExpandArgs(escapeSlashPlus(word))
+	ctx := context.TODO() // TODO pass this in
+	ret, err := i.converter.ExpandArgs(ctx, escapeSlashPlus(word))
+	if err != nil {
+		panic(err) // TODO return this and fix all callers to handle it
+	}
 	if keepPlusEscape {
 		return ret
 	}
