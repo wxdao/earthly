@@ -153,12 +153,8 @@ func (c *Collection) DeclareArg(name string, defaultValue string, global bool, p
 	if found {
 		finalValue = existing
 	} else {
-		v, err := parseArgValue(name, defaultValue, pncvf)
-		if err != nil {
-			return "", "", err
-		}
-		finalValue = v
-		finalDefaultValue = v
+		finalValue = defaultValue
+		finalDefaultValue = defaultValue
 	}
 	c.args().AddActive(name, finalValue)
 	if global {

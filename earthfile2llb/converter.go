@@ -1301,7 +1301,17 @@ func (c *Converter) FinalizeStates(ctx context.Context) (*states.MultiTarget, er
 
 // ExpandArgs expands args in the provided word.
 func (c *Converter) ExpandArgs(word string) string {
-	return c.varCollection.Expand(word)
+
+	if !variables.ContainsShell(word) {
+		return c.varCollection.Expand(word)
+	}
+
+	pncvf := c.processNonConstantBuildArgFunc(context.TODO())
+	expanded, _, err := pncvf("earthly-expand-arg", word)
+	if err != nil {
+		panic(err)
+	}
+	return expanded
 }
 
 func (c *Converter) prepBuildTarget(ctx context.Context, fullTargetName string, platform *specs.Platform, allowPrivileged bool, buildArgs []string, isDangling bool, cmdT cmdType) (domain.Target, ConvertOpt, bool, error) {

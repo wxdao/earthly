@@ -74,12 +74,7 @@ func parseArg(arg string, pncvf ProcessNonConstantVariableFunc, current *Collect
 		if reserved.IsBuiltIn(name) {
 			return "", "", errors.Errorf("value cannot be specified for built-in build arg %s", name)
 		}
-
-		v, err := parseArgValue(name, value, pncvf)
-		if err != nil {
-			return "", "", err
-		}
-		return name, v, nil
+		return name, value, nil
 	}
 	v, ok := current.GetActive(name)
 	if !ok {
@@ -88,20 +83,36 @@ func parseArg(arg string, pncvf ProcessNonConstantVariableFunc, current *Collect
 	return name, v, nil
 }
 
-func parseArgValue(name string, value string, pncvf ProcessNonConstantVariableFunc) (string, error) {
-	if pncvf == nil {
-		return value, nil
-	}
-	if strings.Contains(value, "$(") {
-		// Variable build arg - resolve value.
-		var err error
-		value, _, err = pncvf(name, value)
-		if err != nil {
-			return "", err
+// ContainsShell returns true for strings containing $(
+// except for cases where escaped: e.g. \$(
+// or cases with singlquotes: '$(...'
+func ContainsShell(s string) bool {
+	var escaped bool
+	var singlequoted bool
+	var last rune
+	for _, c := range s {
+		//fmt.Printf("got %s\n", string(c))
+		if escaped {
+			escaped = false
+			last = 0
+			continue
 		}
+		if c == '\\' {
+			escaped = true
+			last = 0
+			continue
+		}
+		if c == '\'' {
+			singlequoted = !singlequoted
+			last = 0
+			continue
+		}
+		if last == '$' && c == '(' && !singlequoted {
+			return true
+		}
+		last = c
 	}
-
-	return value, nil
+	return false
 }
 
 // ParseEnvVars parses env vars from a slice of strings of the form "key=value".

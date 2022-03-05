@@ -12,6 +12,8 @@ all:
     BUILD +test4
     BUILD +test5
     BUILD +test6
+    BUILD +test7
+    BUILD +test8
     BUILD +test-global1
     BUILD +test-global2
     BUILD +test-global3
@@ -62,7 +64,24 @@ test5:
 test6:
     RUN echo world > data
     ARG VAR1="hello$(cat ./data)"
+    RUN env | grep VAR
     RUN test "$VAR1" == "helloworld"
+
+test7:
+    FROM scratch
+    ARG VAR1="literal\$(string)"
+    FROM alpine:3.15
+    RUN env | grep lite
+    RUN test "$VAR1" == "literal\$(string)"
+    RUN echo -n $VAR1 | base64
+    RUN echo -n $VAR1 | base64 | grep bGl0ZXJhbCQoc3RyaW5nKQ==
+
+test8:
+    FROM scratch
+    ARG VAR1='literal$(whoami)string'
+    FROM alpine:3.15
+    RUN test "$VAR1" == 'literal$(whoami)string'
+    RUN echo -n $VAR1 | base64 | grep bGl0ZXJhbCQod2hvYW1pKXN0cmluZw==
 
 test-global1:
     RUN test "$global1" == "abc"
