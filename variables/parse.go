@@ -83,38 +83,6 @@ func parseArg(arg string, pncvf ProcessNonConstantVariableFunc, current *Collect
 	return name, v, nil
 }
 
-// ContainsShell returns true for strings containing $(
-// except for cases where escaped: e.g. \$(
-// or cases with singlquotes: '$(...'
-func ContainsShell(s string) bool {
-	var escaped bool
-	var singlequoted bool
-	var last rune
-	for _, c := range s {
-		//fmt.Printf("got %s\n", string(c))
-		if escaped {
-			escaped = false
-			last = 0
-			continue
-		}
-		if c == '\\' {
-			escaped = true
-			last = 0
-			continue
-		}
-		if c == '\'' {
-			singlequoted = !singlequoted
-			last = 0
-			continue
-		}
-		if last == '$' && c == '(' && !singlequoted {
-			return true
-		}
-		last = c
-	}
-	return false
-}
-
 // ParseEnvVars parses env vars from a slice of strings of the form "key=value".
 func ParseEnvVars(envVars []string) *Scope {
 	ret := NewScope()
