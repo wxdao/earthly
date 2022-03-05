@@ -92,6 +92,22 @@
         {
           "command": {
             "args": [
+              "+test7"
+            ],
+            "name": "BUILD"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "+test8"
+            ],
+            "name": "BUILD"
+          }
+        },
+        {
+          "command": {
+            "args": [
               "+test-global1"
             ],
             "name": "BUILD"
@@ -451,10 +467,158 @@
         {
           "command": {
             "args": [
+              "env",
+              "|",
+              "grep",
+              "VAR"
+            ],
+            "name": "RUN"
+          }
+        },
+        {
+          "command": {
+            "args": [
               "test",
               "\"$VAR1\"",
               "==",
               "\"helloworld\""
+            ],
+            "name": "RUN"
+          }
+        }
+      ]
+    },
+    {
+      "name": "test7",
+      "recipe": [
+        {
+          "command": {
+            "args": [
+              "scratch"
+            ],
+            "name": "FROM"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "VAR1",
+              "=",
+              "\"literal\\$(string)\""
+            ],
+            "name": "ARG"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "alpine:3.15"
+            ],
+            "name": "FROM"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "env",
+              "|",
+              "grep",
+              "lite"
+            ],
+            "name": "RUN"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "test",
+              "\"$VAR1\"",
+              "==",
+              "\"literal\\$(string)\""
+            ],
+            "name": "RUN"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "echo",
+              "-n",
+              "$VAR1",
+              "|",
+              "base64"
+            ],
+            "name": "RUN"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "echo",
+              "-n",
+              "$VAR1",
+              "|",
+              "base64",
+              "|",
+              "grep",
+              "bGl0ZXJhbCQoc3RyaW5nKQ=="
+            ],
+            "name": "RUN"
+          }
+        }
+      ]
+    },
+    {
+      "name": "test8",
+      "recipe": [
+        {
+          "command": {
+            "args": [
+              "scratch"
+            ],
+            "name": "FROM"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "VAR1",
+              "=",
+              "'literal$(whoami)string'"
+            ],
+            "name": "ARG"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "alpine:3.15"
+            ],
+            "name": "FROM"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "test",
+              "\"$VAR1\"",
+              "==",
+              "'literal$(whoami)string'"
+            ],
+            "name": "RUN"
+          }
+        },
+        {
+          "command": {
+            "args": [
+              "echo",
+              "-n",
+              "$VAR1",
+              "|",
+              "base64",
+              "|",
+              "grep",
+              "bGl0ZXJhbCQod2hvYW1pKXN0cmluZw=="
             ],
             "name": "RUN"
           }
